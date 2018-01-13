@@ -1,0 +1,68 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="services-page">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <div class="card">
+      <div class="circle">S</div>
+      <h1>Our Services</h1>
+      <h3>Following is the list of our users</h3>
+      <iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=200" handle-as="json" last-response="{{users}}"></iron-ajax>
+      <vaadin-grid items="[[users.result]]" column-reordering-allowed multi-sort>
+
+          <vaadin-grid-selection-column auto-select frozen> </vaadin-grid-selection-column>
+    
+          <vaadin-grid-column width="9em" resizable>
+            <template class="header">
+              <vaadin-grid-sorter path="firstName">First Name</vaadin-grid-sorter>
+            </template>
+            <template>[[item.firstName]]</template>
+          </vaadin-grid-column>
+    
+          <vaadin-grid-column width="9em" resizable>
+            <template class="header">
+              <vaadin-grid-sorter path="lastName">Last Name</vaadin-grid-sorter>
+            </template>
+            <template>[[item.lastName]]</template>
+          </vaadin-grid-column>
+    
+          <vaadin-grid-column width="15em" flex-grow="2" resizable>
+            <template class="header">
+              <vaadin-grid-sorter path="address.street">Address</vaadin-grid-sorter>
+            </template>
+            <template>[[item.address.street]], [[item.address.city]]</template>
+          </vaadin-grid-column>
+    
+        </vaadin-grid>
+    </div>
+  </template>
+
+  <script>
+    class ServicesPage extends Polymer.Element {
+      static get is() { return 'services-page'; }
+    }
+
+    window.customElements.define(ServicesPage.is, ServicesPage);
+  </script>
+</dom-module>

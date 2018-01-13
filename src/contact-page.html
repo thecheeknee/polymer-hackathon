@@ -1,0 +1,122 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/promise-polyfill/promise-polyfill-lite.html">
+<link rel="import" href="shared-styles.html">
+
+
+<dom-module id="contact-page">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      #error{
+          color:red; display: block; padding:0px;
+      }
+      paper-dropdown-menu, paper-listbox {
+        width: 250px;
+      }
+      paper-dropdown-menu {
+        width: 200px;
+        margin-right: 20px;
+      }
+
+    </style>
+
+    <div class="card">
+      <div class="circle">C</div>
+      <h1>Contact</h1>
+      <p>Contact us by filling the form below</p>
+      <iron-form id="dummyform" is="iron-form">
+      <form>
+      <paper-input always-float-label label="Your Name" name="yourName" value="{{frmObj.yourName}}" minlength="5" maxlength="40" required auto-validate error-message="Name mandatory!"></paper-input>
+      <paper-input always-float-label label="Username" name="userName" value="{{frmObj.userName}}" minlength="4" maxlength="25" required auto-validate error-message="Only Alphanumeric &amp; (-_.) allowed!" allowed-pattern="[a-zA-Z0-9\.\_\-]">
+          <iron-icon icon="mail" slot="prefix"></iron-icon>
+          <div slot="suffix">@gmail.com</div>
+      </paper-input>
+      <p></p>
+      <div class="checkboxlist fheight">
+        <paper-checkbox checked="{{frmObj.subscribe}}" name="subscribe" required auto-validate>Subscribe to our emails?</paper-checkbox>
+      </div>
+      <div class="dropdownlist fheight">
+        <paper-dropdown-menu label="Pick One" text="{{frmObj.dropdownValue}}">
+            <paper-listbox slot="dropdown-content" selected="{{frmObj.dropdown}}" name="dropdownlist" value="">
+                <paper-item>Cartoons</paper-item>
+                <paper-item>Clicks</paper-item>
+                <paper-item>Comics</paper-item>
+                <paper-item>Content</paper-item>
+            </paper-listbox>
+        </paper-dropdown-menu>
+      </div>
+      <paper-button raised on-click="submitForm">Submit</paper-button>
+    </form>
+</iron-form>
+      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+    </div>
+  </template>
+
+  <script>
+    class ContactPage extends Polymer.Element {
+      static get is() { return 'contact-page'; }
+      static get properties(){
+          return {
+              frmObj :{
+                  type : Object,
+                  value : {
+                      yourName:"Dummy Data",
+                      userName:"dummdata",
+                      dropdown:1,
+                      subscribe:true
+                  }
+              }
+          }
+      }
+      submitForm(){
+        if(this.$.dummyform.validate()){
+            console.log( this.frmObj );
+        }else{
+            console.log(false);
+        }
+      }
+    }
+
+    window.customElements.define(ContactPage.is, ContactPage);
+  </script>
+  <!-- <script>
+      function findAncestor (el, cls) {
+        while ((el = el.parentElement) && !el.classList.contains(cls));
+        return el;
+        }
+      function submitForm(){
+          console.log(ContactPage.properties.frmObj);
+      };
+      
+      function checkempty(obj, ovalue){
+          if(obj.value==null || obj.value==undefined || obj.value==''){
+              err[0].innerHTML = ovalue + ' is incomplete';
+          }else{
+              err[0].innerHTML = '';
+          }
+      }
+  </script> -->
+</dom-module>
